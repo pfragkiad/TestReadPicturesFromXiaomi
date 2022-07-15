@@ -4,7 +4,9 @@ using MediaDevices;
 var devices = MediaDevice.GetDevices();
 
 //safe copy only non-already downloaded files (speed up)
-List<string> filesalread = Directory.GetFiles(@"D:\foto came\2022-07-15 photos xiaomi fanis\Camera").
+string target = @"D:\foto came\2022-07-15 photos xiaomi fanis\Camera";
+//string target = @"D:\foto came\2022-07-15 photos xiaomi fanis\Downloads";
+List<string> filesalread = Directory.GetFiles(target).
         Select(f => Path.GetFileName(f)).ToList();
 
 using (var device = devices.First(d => d.FriendlyName == "Mi Note 10"))
@@ -24,7 +26,7 @@ using (var device = devices.First(d => d.FriendlyName == "Mi Note 10"))
             MemoryStream memoryStream = new System.IO.MemoryStream();
             device.DownloadFile(file.FullName, memoryStream);
             memoryStream.Position = 0;
-            WriteStreamToDisk($@"D:\foto came\2022-07-15 photos xiaomi fanis\Camera\{file.Name}", memoryStream);
+            WriteStreamToDisk($@"{target}\{file.Name}", memoryStream);
         }
         else Console.WriteLine($"{file.Name} already on disk");
     }
